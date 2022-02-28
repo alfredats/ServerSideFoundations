@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
   pkgs.mkShell {
 
-    nativeBuildInputs = [ pkgs.jdk17_headless
+    nativeBuildInputs = [ pkgs.openjdk17
                           pkgs.maven 
                           pkgs.heroku
                         ]; 
