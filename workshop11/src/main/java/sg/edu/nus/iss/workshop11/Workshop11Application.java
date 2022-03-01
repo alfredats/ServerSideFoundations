@@ -1,6 +1,5 @@
 package sg.edu.nus.iss.workshop11;
 
-import org.springframework.aop.framework.adapter.DefaultAdvisorAdapterRegistry;
 import org.springframework.boot.DefaultApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,10 +28,12 @@ public class Workshop11Application {
 
 		logger.info("optVals > " + optVals);
 		if (optVals == null || optVals.get(0) == null) {
-			portNumber = System.getProperty("PORT", DEFAULT_PORT);
+			// portNumber = System.getProperty("system.port", DEFAULT_PORT);
+			portNumber = (System.getenv("PORT") == null) ? DEFAULT_PORT : System.getenv("PORT");
 		} else {
 			portNumber = (String)optVals.get(0);
 		}
+
 
 		if (portNumber != null) {
 			app.setDefaultProperties(Collections.singletonMap("server.port", portNumber));
