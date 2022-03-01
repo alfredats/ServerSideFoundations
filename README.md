@@ -6,4 +6,5 @@ NUS blocks port 22, so update your git remote address as follows:
 
 ### Deploying sub-directories to Heroku
 
+```git subtree push --prefix <subdir> <remote> <localbranch>```
 Reference: https://www.atlassian.com/git/tutorials/git-subtree

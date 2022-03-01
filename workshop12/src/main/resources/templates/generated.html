@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .numImg { border: solid black .1rem ;
+              border-radius: 1rem;
+              padding: 1rem;
+              margin-bottom: 1rem; }
+
+    .images { display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: space-between;}
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your generated numbers!</title>
+</head>
+<body>
+   <h1>Here are your <span th:text="${numInputByUser}"></span> numbers!</h1> 
+   <div class="images">
+    <div class="numImg" th:each="numImg : ${randNumsResult}">
+        <img th:src="@{${'/images/' + numImg}}" width="200" height="200" />
+    </div>
+   </div>
+</body>
+</html>
