@@ -12,12 +12,17 @@ import sg.edu.nus.iss.workshop12.RandomNumberGenerator.RandomNumberGenerator;
 import sg.edu.nus.iss.workshop12.exception.InvalidRangeArgumentException;
 import sg.edu.nus.iss.workshop12.model.Generate;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 
 @Controller
 public class GeneratorController {
-	private static final Logger logger = LoggerFactory.getLogger(GeneratorController.class);
+	// private static final Logger logger = LoggerFactory.getLogger(GeneratorController.class);
+    private Logger logger = Logger.getLogger(GeneratorController.class.getName());
 
     @GetMapping(path={"/", "/index.html"}, produces = {"text/html"})
     public String indexPage(Model model) {
@@ -30,7 +35,8 @@ public class GeneratorController {
     public String generateNumbers(@ModelAttribute Generate generate, Model model) {
         // the solution uses a try catch here; why not an if-else?
         try {
-            logger.info("[FORM] numberVal > " + generate.getNumberVal());
+            // logger.info("[FORM] numberVal > " + generate.getNumberVal());
+            logger.log(Level.INFO, "numberVal > " + generate.getNumberVal());
             
             int numGen = generate.getNumberVal();
 
@@ -42,14 +48,16 @@ public class GeneratorController {
             ArrayList<String> imgs = new ArrayList<>();
             // obtain your images!
             for (Integer num : randGen.nonDupNumbers) {
-                logger.info("currentElem > " + num);
+                // logger.info("currentElem > " + num);
+                logger.log(Level.INFO, "currentElem > " + num);
                 imgs.add("number" + num + ".jpg");
             }        
 
             model.addAttribute("numInputByUser", numGen);
             model.addAttribute("randNumsResult", imgs.toArray());
         } catch (InvalidRangeArgumentException e) {
-            logger.error("[ERROR] InvalidRangeArgument:" + e);
+            // logger.error("[ERROR] InvalidRangeArgument: " + e);
+            logger.log(Level.WARNING, "[ERROR] InvalidRangeArgument: " + e);
             model.addAttribute("errorMessage", "Invalid Input! Use only a number between 1 and 30!");
 
             return "error";
