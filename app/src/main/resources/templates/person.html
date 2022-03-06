@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${person.firstName}"></title>
+</head>
+<body>
+    <h1>Here are the details you've requested:</h1>
+
+    <div th:object="${person}">    
+        <p><b>ID:</b> <span th:text="*{_id}"></span></p>
+        <p><b>Name:</b> <span th:text="*{firstName} + ' ' + *{lastName} "></span></p>
+        <p><b>Gender:</b> <span th:text="*{gender}"></span></p>
+    </div>
+
+    <em>Page was rendered on <span th:text="${currTime}"></span>!</em>
+</body>
+</html>
