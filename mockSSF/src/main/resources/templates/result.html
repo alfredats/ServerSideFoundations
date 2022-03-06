@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library of Alexandria</title>
+</head>
+<body>
+    <div>
+        <p>Your query details:</p>
+        <div th:if="${query.author}">
+            <p>Author: <span th:text="${query.author}"></span></p> 
+        </div>
+        <div th:if="${query.title}">
+            <p>Author: <span th:text="${query.title}"></span></p> 
+        </div>
+    </div>
+    
+    <div>
+        Sort by: 
+        <div th:if="${query.sortByAuthor == null}">
+            <button>Author</button>
+        </div>
+        <div th:if="${query.sortByAuthor}">
+            <button>Author ⬆</button>
+        </div>
+        <div th:unless="${query.sortByAuthor}">
+            <button>Author ⬇</button>
+        </div>
+        <div th:if="${query.sortByTitle == null}">
+            <button>Title</button>
+        </div>
+        <div th:if="${query.sortByTitle}">
+            <button>Title ⬆</button>
+        </div>
+        <div th:unless="${query.sortByTitle}">
+            <button>Title ⬇</button>
+        </div>
+    </div>
+
+    <div>
+        <table>
+            <tbody>
+                <tr th:each="book : ${biblio}">
+                    <td th:text="${book.thumbnailURI}"></td>
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.author"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
