@@ -19,7 +19,7 @@
     
     <div>
         Sort by: 
-        <div th:if="${query.sortByAuthor == null}">
+        <!-- <div th:if="${query.sortByAuthor == null}">
             <button>Author</button>
         </div>
         <div th:if="${query.sortByAuthor}">
@@ -36,16 +36,18 @@
         </div>
         <div th:unless="${query.sortByTitle}">
             <button>Title ⬇</button>
-        </div>
+        </div> -->
     </div>
 
     <div>
         <table>
             <tbody>
-                <tr th:each="book : ${biblio}">
-                    <td th:text="${book.thumbnailURI}"></td>
-                    <td th:text="${book.title}"></td>
-                    <td th:text="${book.author"></td>
+<!-- See link for more info about bStat -->
+<!-- https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#keeping-iteration-status -->
+                <tr th:each="book, bStat: ${bookPage.content}">
+                    <!-- <td th:text="${book.thumbnailURI}"></td> -->
+                    <td th:text="${book.title}" />
+                    <td th:text="${book.author}" />
                 </tr>
             </tbody>
         </table>

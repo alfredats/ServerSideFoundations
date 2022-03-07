@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.mockSSF.model;
 
-import java.util.Comparator;
+
+
 
 public class Book {
     private String thumbnailURI;
@@ -33,15 +34,4 @@ public class Book {
         return (bk.title == this.title) && (bk.author == this.author);
     }
 
-    public static final Comparator<Book> TITLE_COMPARATOR = new Comparator<Book>() {
-        public int compare(Book b1, Book b2) {
-            return b1.title.compareToIgnoreCase(b2.title);
-        }
-    };
-
-    public static final Comparator<Book> AUTHOR_COMPARATOR = new Comparator<Book>() {
-        public int compare(Book b1, Book b2) {
-            return b1.author.compareToIgnoreCase(b2.author);
-        }
-    };
 }

@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.mockSSF.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,10 @@ public class LibraryRepo {
 
     @Autowired
     private RedisTemplate<String,Book> redisTemplate;
+
+    public List<Book> findAllBooks() {
+        return null;
+    }
 
     public Set<Book> findByAuthor(String author) {
         String authorProcessed = author.toLowerCase().strip();
