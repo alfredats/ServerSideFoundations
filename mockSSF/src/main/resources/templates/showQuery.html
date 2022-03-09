@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-th-text="${query.id}"></title>
+</head>
+<body th:object="${query}">
+    <p>Query id: <span th:text="*{id}"</p>
+    <p>Title: <span th:text="*{title}"</p>
+    <p>Author:  <span th:text="*{author}"</p>
+</body>
+</html>

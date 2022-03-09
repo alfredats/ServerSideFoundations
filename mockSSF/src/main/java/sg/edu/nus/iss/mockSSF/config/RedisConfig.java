@@ -15,6 +15,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import sg.edu.nus.iss.mockSSF.model.Book;
+
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
@@ -33,7 +36,7 @@ public class RedisConfig {
 
     @Bean
     @Scope("singleton")
-    public RedisTemplate<String,Object> redisTemplate() {
+    public RedisTemplate<String,Book> redisTemplate() {
         final RedisStandaloneConfiguration config = 
             new RedisStandaloneConfiguration();
 
@@ -48,7 +51,7 @@ public class RedisConfig {
         jedisFac.afterPropertiesSet();
         logger.info(String.format("connected to redis at %s:%d", redisHost, redisPort.get()));
 
-        final RedisTemplate<String, Object> template = 
+        final RedisTemplate<String, Book> template = 
             new RedisTemplate<>();
         template.setConnectionFactory(jedisFac);
         template.setKeySerializer(new StringRedisSerializer());

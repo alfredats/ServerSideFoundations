@@ -9,17 +9,15 @@
 <body>
     <div>
         <p>Your query details:</p>
-        <div th:if="${query.author}">
+        <div>
+            <p >Title: <span th:text="${query.title}"></span></p> 
             <p>Author: <span th:text="${query.author}"></span></p> 
-        </div>
-        <div th:if="${query.title}">
-            <p>Author: <span th:text="${query.title}"></span></p> 
         </div>
     </div>
     
-    <div>
+    <!-- <div>
         Sort by: 
-        <!-- <div th:if="${query.sortByAuthor == null}">
+        <div th:if="${query.sortByAuthor == null}">
             <button>Author</button>
         </div>
         <div th:if="${query.sortByAuthor}">
@@ -36,21 +34,39 @@
         </div>
         <div th:unless="${query.sortByTitle}">
             <button>Title ⬇</button>
-        </div> -->
-    </div>
+        </div>
+    </div> -->
 
-    <div>
-        <table>
+        <!-- <table>
             <tbody>
+                 <tr th:each="book, bStat: ${query.results}">
+                    <td th:text="${book.thumbnailURI}"></td>
+                    <td th:text="${book.title}" />
+                    <td th:text="${book.author}" />
+                </tr>
+            </tbody>
+        </table> -->
+
 <!-- See link for more info about bStat -->
 <!-- https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#keeping-iteration-status -->
-                <tr th:each="book, bStat: ${bookPage.content}">
-                    <!-- <td th:text="${book.thumbnailURI}"></td> -->
+    <div>
+        <table>
+            <!-- <thead>
+                <tr>
+                    <td>Thumbnail</td>
+                    <td>Title</td>
+                    <td>Author</td>
+                </tr>
+            </thead> -->
+            <tbody>
+                 <tr th:each="book, bStat: ${bookPage.content}">
+                    <td th:text="${book.thumbnailURI}"></td>
                     <td th:text="${book.title}" />
                     <td th:text="${book.author}" />
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div> 
+    <div></div>
 </body>
 </html>

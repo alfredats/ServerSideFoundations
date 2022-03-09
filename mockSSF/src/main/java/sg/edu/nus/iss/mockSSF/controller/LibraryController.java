@@ -1,7 +1,5 @@
 package sg.edu.nus.iss.mockSSF.controller;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sg.edu.nus.iss.mockSSF.model.Book;
@@ -33,42 +33,47 @@ public class LibraryController {
     public String landingResource(Model model) {
         Query q = new Query();
         model.addAttribute("query", q);
+
+        // final int currentPage = page.orElse(1);
+        // final int pageSize = size.orElse(PAGE_SIZE);
+
+        // Page<Book> bookPage = library.findPaginated(PageRequest.of(currentPage-1, pageSize), q);
+        // model.addAttribute("bookPage", bookPage);
+
+        // int totalPages = bookPage.getTotalPages();
+        // if (totalPages > 0) {
+        //     List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+        //         .boxed()
+        //         .collect(Collectors.toList());
+        //     model.addAttribute("pageNumbers", pageNumbers);
+        // }
+
+
+
         return "index";
     }
 
-    @GetMapping(value="/search")
+    @PostMapping(value="/search/{queryId}")
     public String search(
-        @RequestParam("author") Optional<String> author, 
-        @RequestParam("title") Optional<String> title, 
+        @PathVariable("queryId") String queryId,
         @RequestParam("page") Optional<Integer> page,
         @RequestParam("size") Optional<Integer> size,
-        @RequestParam("sortByAuthor") Optional<Boolean> sortByAuthor,
-        @RequestParam("sortByTitle") Optional<Boolean> sortByTitle,
-        Model model) 
+        @RequestParam("sortByAuthor") Optional<String> sortBy,
+        Model model, Query q) 
     {
         final int currentPage = page.orElse(1);
         final int pageSize = size.orElse(PAGE_SIZE);
-        Query q = new Query();
-        if (author.isPresent()) {
-            logger.info("search:author > " + author);
-            q.setAuthor(author.get());
-        }
-        if (title.isPresent()) {
-            logger.info("search:title  > " + title);
-            q.setTitle(title.get());
-        }
-        model.addAttribute("query", q);
 
         Page<Book> bookPage = library.findPaginated(PageRequest.of(currentPage-1, pageSize), q);
         model.addAttribute("bookPage", bookPage);
 
-        int totalPages = bookPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                .boxed()
-                .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
+        // int totalPages = bookPage.getTotalPages();
+        // if (totalPages > 0) {
+        //     List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+        //         .boxed()
+        //         .collect(Collectors.toList());
+        //     model.addAttribute("pageNumbers", pageNumbers);
+        // }
 
         return "result";
     }

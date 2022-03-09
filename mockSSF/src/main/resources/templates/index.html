@@ -11,9 +11,9 @@
 
     <form 
         action="#" 
-        th:action="@{/search}"
+        th:action="@{/search/{id}(id=${query.id})}"
         th:object="${query}" 
-        method="get"
+        method="POST"
     >
             Title:
             <input type="text" th:field="*{title}"/>

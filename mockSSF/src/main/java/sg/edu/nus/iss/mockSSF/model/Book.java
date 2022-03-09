@@ -1,12 +1,24 @@
 package sg.edu.nus.iss.mockSSF.model;
 
+import org.springframework.data.redis.core.RedisHash;
 
-
-
+@RedisHash("Book")
 public class Book {
+    private String id;
     private String thumbnailURI;
     private String title;
     private String author;
+
+    public Book(String thumbnailURI, String title, String author) {
+        this.id = title;
+        this.thumbnailURI = thumbnailURI;
+        this.title = title;
+        this.author = author;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public String getAuthor() {
         return author;
