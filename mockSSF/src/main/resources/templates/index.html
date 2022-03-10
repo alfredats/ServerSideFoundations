@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles/style.css" th:href="@{styles/style.css}"/>
+    <link rel="stylesheet" type="text/css" href="~/styles/style.css" th:href="@{~/styles/style.css}"/>
     <title>Library of Alexandria</title>
 </head>
 <body>
@@ -29,19 +29,38 @@
             <input type="submit" value="Search" />
             </div>
     </form>  
+    <nav>
+        <div class="pagination">
+            <p>Page : </p>
+            <div th:if="${totalPages > 0}" th:each="pageNumber: ${#numbers.sequence(1,totalPages)}">
+                <a th:if="${currentPage != pageNumber}" th:href="@{/search/{id}?page={page}&size={size}(id=${query.id}, page=${pageNumber}, size=${pageSize})}">[[${pageNumber}]]</a>
+                <span th:unless="${currentPage != pageNumber}">[[${pageNumber}]]</span>
+            </div>
+        </div>
+        <div class="perPage">
+            <p>Items per page: </p>
+            <a th:each="option : ${sizeOptions}" th:href="@{/search/{id}?page={page}&size={size}(id=${query.id}, page=${currentPage}, size=${option})}">[[${option}]]</a>
+            <!-- <select th:id="size" th:name="size"> 
+                <option th:each="option : ${sizeOptions}"
+                        th:value="${option}"
+                        th:selected="${option == pageSize} ? true : false"
+                        th:onchange="'alert(\'hello\')'"
+                >[[${option}]]</option>
+            </select> -->
+        </div>
+    </nav>    
     <div>
         <table>
-            <!-- <thead>
+            <thead>
                 <tr>
                     <td>Thumbnail</td>
                     <td>Title</td>
                     <td>Author</td>
                 </tr>
-            </thead> -->
+            </thead>
             <tbody>
                  <tr th:each="book, bStat: ${bookPage.content}">
-                    <!-- <td th:text="${book.thumbnailURI}"><img th:src="@{/resources/static/thumbnails/{thumbnail}(thumbnail=${book.thumbnailURI})" /></td> -->
-                    <td><img th:src="@{thumbnails/{thumbnail}(thumbnail=${book.thumbnailURI})}" /></td>
+                    <td><img th:src="@{~/thumbnails/{thumbnail}(thumbnail=${book.thumbnailURI})}" /></td>
                     <td th:text="${book.title}" />
                     <td th:text="${book.author}" />
                 </tr>

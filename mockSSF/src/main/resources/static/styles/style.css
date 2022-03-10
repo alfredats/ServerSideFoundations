@@ -1,4 +1,42 @@
+h1 {
+    text-align: center;
+    text-transform: capitalize;
+    color: blue;
+}
+
+nav {
+    height: 5rem;
+    width: 80%;
+}
+
+.pagination {
+    height: 50%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.pagination div {
+    margin: 0 .2rem;
+}
+
+.perPage {
+    display: flex;
+    justify-content: left;
+    height: 50%;
+    align-items: center;
+}
+
+.perPage a {
+    margin: 0 .2rem;
+}
+
+/* .perPage select {
+    margin: 1rem .2rem; 
+} */
+
 table {
+    width:100%;
     border-collapse: collapse;
 }
 
@@ -20,11 +58,6 @@ td img {
     padding: .5rem;
 }
 
-h1 {
-    text-align: center;
-    text-transform: capitalize;
-    color: blue;
-}
 
 .queryBox {
     display: flex;

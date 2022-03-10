@@ -26,15 +26,25 @@ import sg.edu.nus.iss.mockSSF.model.Query;
 public class LibraryServiceImpl implements LibraryService {
     Logger logger = LoggerFactory.getLogger(LibraryServiceImpl.class);
 
-    public static final int PAGE_SIZE = 10;
-
     @Autowired
     private LibraryRepo libRepo;
+
+    @Autowired
+    private QueryRepo qRepo;
+
+    public void saveQuery(Query q) {
+        qRepo.save(q);
+    }
+
+    public Query findQuery(String queryId) {
+        return qRepo.findById(queryId).orElse(null);
+    }
 
     @Override
     public void saveBook(Book book) {
         libRepo.save(book);
     }
+
 
     public List<Book> findAllBooks() {
         Iterable<Book> bks = libRepo.findAll();
@@ -81,21 +91,24 @@ public class LibraryServiceImpl implements LibraryService {
     // public Page<Book> findPaginated(Pageable pageable, Query q, String sortField, String sortDirection) {
     public Page<Book> findPaginated(Pageable pageable, Query q) {
         int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * PAGE_SIZE;
+        int pageSize = pageable.getPageSize();
+        int startItem = currentPage * pageSize;
 
-        if (q.getTitle() == null && q.getAuthor() == null) {
+        String qTitle = q.getTitle() == null ? "" : q.getTitle();
+        String qAuthor= q.getAuthor() == null ? "" : q.getAuthor();
+
+        if (qTitle.equals("") && qAuthor.equals("")) { 
             logger.info("Populating initial pageload with all books");
             q.setResults(this.findAllBooks());
         }
         else {
-        // if (q.getResults() == null) { 
             logger.info("Adding query results for " + q.printQuery());
             q.setResults(this.findByQuery(q));
         } 
-        int toIndex = Math.min(startItem + PAGE_SIZE, q.getResults().size());
+        int toIndex = Math.min(startItem + pageSize, q.getResults().size());
         List<Book> list = q.getResults().subList(startItem, toIndex);
 
-        Page<Book> bookPage = new PageImpl<Book>(list, PageRequest.of(currentPage, PAGE_SIZE), q.getResults().size());
+        Page<Book> bookPage = new PageImpl<Book>(list, PageRequest.of(currentPage, pageSize), q.getResults().size());
 
         return bookPage;
     }
