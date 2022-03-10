@@ -37,18 +37,18 @@ public class LibraryController {
         // final int currentPage = page.orElse(1);
         // final int pageSize = size.orElse(PAGE_SIZE);
 
-        // Page<Book> bookPage = library.findPaginated(PageRequest.of(currentPage-1, pageSize), q);
-        // model.addAttribute("bookPage", bookPage);
+        int currentPage = 1;
+        int pageSize = PAGE_SIZE;
+        Page<Book> bookPage = library.findPaginated(PageRequest.of(currentPage-1, pageSize), q);
+        model.addAttribute("bookPage", bookPage);
 
-        // int totalPages = bookPage.getTotalPages();
-        // if (totalPages > 0) {
-        //     List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-        //         .boxed()
-        //         .collect(Collectors.toList());
-        //     model.addAttribute("pageNumbers", pageNumbers);
-        // }
-
-
+        int totalPages = bookPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                .boxed()
+                .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
 
         return "index";
     }

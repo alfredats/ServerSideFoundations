@@ -83,12 +83,12 @@ public class LibraryServiceImpl implements LibraryService {
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * PAGE_SIZE;
 
-        // if (q.getTitle() == null && q.getAuthor() == null) {
-        //     logger.info("Populating initial pageload with all books");
-        //     q.setResults(this.findAllBooks());
-        // }
-        // else {
-        if (q.getResults() == null) { 
+        if (q.getTitle() == null && q.getAuthor() == null) {
+            logger.info("Populating initial pageload with all books");
+            q.setResults(this.findAllBooks());
+        }
+        else {
+        // if (q.getResults() == null) { 
             logger.info("Adding query results for " + q.printQuery());
             q.setResults(this.findByQuery(q));
         } 
