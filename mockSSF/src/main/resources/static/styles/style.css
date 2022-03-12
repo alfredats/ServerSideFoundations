@@ -5,12 +5,12 @@ h1 {
 }
 
 nav {
-    height: 5rem;
+    height: 8rem;
     width: 80%;
 }
 
 .pagination {
-    height: 50%;
+    height: 33%;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -23,11 +23,23 @@ nav {
 .perPage {
     display: flex;
     justify-content: left;
-    height: 50%;
+    height: 30%;
+    align-items: center;
+    margin: 0;
+}
+
+.perPage div * {
+    margin: 0 .2rem;
+}
+
+.sortVia {
+    display: flex;
+    justify-content: left;
+    height: 33%;
     align-items: center;
 }
 
-.perPage a {
+.sortVia button {
     margin: 0 .2rem;
 }
 

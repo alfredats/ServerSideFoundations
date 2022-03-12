@@ -18,6 +18,10 @@ public class Query {
         return UUID.randomUUID().toString();
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
@@ -44,6 +48,6 @@ public class Query {
     public String printQuery() {
         String maybeTitle = (getTitle()==null) ? "<no title>" : getTitle();
         String maybeAuthor = (getAuthor()==null) ? "<no author>" : getAuthor();
-        return "Query{%s, %s}".formatted(maybeTitle, maybeAuthor);
+        return "Query{%s, %s, %s}".formatted(this.getId(), maybeTitle, maybeAuthor);
     }
 }

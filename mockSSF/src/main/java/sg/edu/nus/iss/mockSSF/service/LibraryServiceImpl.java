@@ -1,7 +1,9 @@
 package sg.edu.nus.iss.mockSSF.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +19,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import sg.edu.nus.iss.mockSSF.model.Book;
+import sg.edu.nus.iss.mockSSF.model.BookUtil;
 import sg.edu.nus.iss.mockSSF.model.Query;
 
 @Service
@@ -36,8 +40,8 @@ public class LibraryServiceImpl implements LibraryService {
         qRepo.save(q);
     }
 
-    public Query findQuery(String queryId) {
-        return qRepo.findById(queryId).orElse(null);
+    public Optional<Query> findQuery(String queryId) {
+        return qRepo.findById(queryId);
     }
 
     @Override
@@ -89,13 +93,12 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     // public Page<Book> findPaginated(Pageable pageable, Query q, String sortField, String sortDirection) {
-    public Page<Book> findPaginated(Pageable pageable, Query q) {
-        int currentPage = pageable.getPageNumber();
-        int pageSize = pageable.getPageSize();
-        int startItem = currentPage * pageSize;
+    public Page<Book> findPaginated(Query q, int currentPage, int pageSize, String sortBy) {
 
         String qTitle = q.getTitle() == null ? "" : q.getTitle();
         String qAuthor= q.getAuthor() == null ? "" : q.getAuthor();
+
+        logger.info("find paginated: " + qTitle + ' ' + qAuthor);
 
         if (qTitle.equals("") && qAuthor.equals("")) { 
             logger.info("Populating initial pageload with all books");
@@ -105,10 +108,28 @@ public class LibraryServiceImpl implements LibraryService {
             logger.info("Adding query results for " + q.printQuery());
             q.setResults(this.findByQuery(q));
         } 
+        if (!sortBy.equals("none")) {
+            logger.info("Sort by: " + sortBy);
+            Comparator<Book> compy = (sortBy.equals("author")) ? BookUtil.AUTHOR_COMPARATOR : BookUtil.TITLE_COMPARATOR;
+            List<Book> sorted = new ArrayList<Book>(q.getResults());
+            logger.info("Before sort: " + sorted);
+            Collections.sort(sorted , compy);
+            logger.info("After sort: " + sorted);
+            q.setResults(sorted);
+        }
+
+        int startItem = currentPage * pageSize;
         int toIndex = Math.min(startItem + pageSize, q.getResults().size());
         List<Book> list = q.getResults().subList(startItem, toIndex);
 
-        Page<Book> bookPage = new PageImpl<Book>(list, PageRequest.of(currentPage, pageSize), q.getResults().size());
+        Page<Book> bookPage = 
+            new PageImpl<Book>(
+                list, 
+                PageRequest.of(currentPage, pageSize),
+                q.getResults().size()
+            );
+
+        qRepo.save(q);
 
         return bookPage;
     }

@@ -1,11 +1,12 @@
 package sg.edu.nus.iss.mockSSF.model;
 
 import java.util.Comparator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BookUtil {
-    Logger logger = LoggerFactory.getLogger(Book.class);
+    Logger logger = LoggerFactory.getLogger(BookUtil.class);
 
     public int querySimilarity(Book b, Query q) {
         if (b.getTitle() == null || b.getAuthor() == null) {
@@ -27,12 +28,14 @@ public class BookUtil {
     }
 
     public static final Comparator<Book> TITLE_COMPARATOR = new Comparator<Book>() {
+        @Override
         public int compare(Book b1, Book b2) {
             return b1.getTitle().compareToIgnoreCase(b2.getTitle());
         }
     };
 
     public static final Comparator<Book> AUTHOR_COMPARATOR = new Comparator<Book>() {
+        @Override
         public int compare(Book b1, Book b2) {
             return b1.getAuthor().compareToIgnoreCase(b2.getAuthor());
         }

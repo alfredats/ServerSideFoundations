@@ -33,20 +33,21 @@
         <div class="pagination">
             <p>Page : </p>
             <div th:if="${totalPages > 0}" th:each="pageNumber: ${#numbers.sequence(1,totalPages)}">
-                <a th:if="${currentPage != pageNumber}" th:href="@{/search/{id}?page={page}&size={size}(id=${query.id}, page=${pageNumber}, size=${pageSize})}">[[${pageNumber}]]</a>
+                <a th:if="${currentPage != pageNumber}" th:href="@{/search/{id}?page={page}&size={size}&sortBy={sortBy}(id=${query.id}, page=${currentPage}, size=${option}, sortBy=${sortBy})}">[[${pageNumber}]]</a>
                 <span th:unless="${currentPage != pageNumber}">[[${pageNumber}]]</span>
             </div>
         </div>
         <div class="perPage">
             <p>Items per page: </p>
-            <a th:each="option : ${sizeOptions}" th:href="@{/search/{id}?page={page}&size={size}(id=${query.id}, page=${currentPage}, size=${option})}">[[${option}]]</a>
-            <!-- <select th:id="size" th:name="size"> 
-                <option th:each="option : ${sizeOptions}"
-                        th:value="${option}"
-                        th:selected="${option == pageSize} ? true : false"
-                        th:onchange="'alert(\'hello\')'"
-                >[[${option}]]</option>
-            </select> -->
+            <div th:each="option : ${sizeOptions}">
+                <a th:if="${pageSize != option}" th:href="@{/search/{id}?page={page}&size={size}&sortBy={sortBy}(id=${query.id}, page=${currentPage}, size=${option}, sortBy=${sortBy})}">[[${option}]]</a>
+                <span th:unless="${pageSize != option}">[[${option}]]</a>
+            </div>
+        </div>
+        <div class="sortVia">
+            <p>Sort By: </p>
+            <button th:onclick="'location.href=\''+ @{/search/{id}?page={page}&size={size}&sortBy=title(id=${query.id}, page=${currentPage}, size=${pageSize})} + '\''">Title</button>
+            <button th:onclick="'location.href=\''+ @{/search/{id}?page={page}&size={size}&sortBy=author(id=${query.id}, page=${currentPage}, size=${pageSize})} + '\''">Author</button>
         </div>
     </nav>    
     <div>
