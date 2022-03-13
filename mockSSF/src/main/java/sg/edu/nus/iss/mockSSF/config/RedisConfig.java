@@ -31,8 +31,8 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private Optional<Integer> redisPort;
 
-    // @Value("${spring.redis.password}")
-    // private String redisPassword;
+    @Value("${spring.redis.password}")
+    private String redisPassword;
 
     @Bean
     @Scope("singleton")
@@ -42,7 +42,7 @@ public class RedisConfig {
 
         config.setHostName(redisHost);
         config.setPort(redisPort.get());
-        // config.setPassword(redisPassword);
+        config.setPassword(redisPassword);
 
         final JedisClientConfiguration jedisClient = 
             JedisClientConfiguration.builder().build();
