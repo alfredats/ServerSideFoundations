@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" th:href="@{~/materialize/css/materialize.css}">
+    <link rel="stylesheet" href="/styles/index.css" th:href="@{~/styles/index.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <form class="input-field col s12" action="#" th:action="@{/}" method="POST">
+                <i class="material-icons prefix">travel_explore</i>
+                <input type="text" id="autocomplete-input" class="autocomplete" th:name="city">
+                <label for="autocomplete-input">City</label>
+                <input type="submit" hidden />
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row" th:object="${lInfo}">
+            <div class="row cityName">
+                <h1>[[*{name}]]</h1>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <img class="responsive-img centre-align" th:src="@{http://openweathermap.org/img/wn/{icon}@4x.png(icon=${lInfo.weather.icon})}" width="600" height="auto"/>
+                </div>
+                <div class="col s8">
+                    <div class="section" th:object="${lInfo.weather}">
+                        <h3 style="text-transform:capitalize;" th:text="*{description}"></h3>
+                    </div>
+                    <div class="row" th:object="${lInfo.temperature}" >
+                        <div class="col s6">
+                            <h4>[[*{temp}]]°C</h4> 
+                            <em>feels like [[*{feelsLike}]]°C</em><br>
+                            <em>Min: [[*{min}]]°C</em>&nbsp;
+                            <em>Max: [[*{max}]]°C</em>
+                        </div>
+                        <div class="col s6">
+                            <h4>Humidity: [[*{humidity}]]%</h4>
+
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div class="row s12 right-align">
+                <em>last updated:[[${#dates.format(new java.util.Date(lInfo.timeUpdated), 'dd-MMM-yy HH:mm')}]]</em>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
+    <!-- list of capitals obtained from: https://github.com/samayo/country-json/blob/master/src/country-by-capital-city.json -->
+    <script>
+        $(document).ready(function(){
+            $('input.autocomplete').autocomplete({
+                data: {"Kabul":null,"Tirana":null,"Alger":null,"Fagatogo":null,"Andorra la Vella":null,"Luanda":null,"The Valley":null,"Saint John's":null,"Buenos Aires":null,"Yerevan":null,"Oranjestad":null,"Canberra":null,"Wien":null,"Baku":null,"Nassau":null,"al-Manama":null,"Dhaka":null,"Bridgetown":null,"Minsk":null,"Bruxelles [Brussel]":null,"Belmopan":null,"Porto-Novo":null,"Hamilton":null,"Thimphu":null,"La Paz":null,"Sarajevo":null,"Gaborone":null,"Brasília":null,"Bandar Seri Begawan":null,"Sofia":null,"Ouagadougou":null,"Bujumbura":null,"Phnom Penh":null,"Yaound":null,"Ottawa":null,"Praia":null,"George Town":null,"Bangui":null,"N'Djam":null,"Santiago de Chile":null,"Peking":null,"Flying Fish Cove":null,"West Island":null,"Santaf":null,"Moroni":null,"Brazzaville":null,"Avarua":null,"San Jos":null,"Zagreb":null,"La Habana":null,"Nicosia":null,"Praha":null,"Copenhagen":null,"Djibouti":null,"Roseau":null,"Santo Domingo de Guzm":null,"Dili":null,"Quito":null,"Cairo":null,"San Salvador":null,"London":null,"Malabo":null,"Asmara":null,"Tallinn":null,"Addis Abeba":null,"Stanley":null,"Tórshavn":null,"Suva":null,"Helsinki [Helsingfors]":null,"Paris":null,"Cayenne":null,"Papeete":null,"Libreville":null,"Banjul":null,"Tbilisi":null,"Berlin":null,"Accra":null,"Gibraltar":null,"Athenai":null,"Nuuk":null,"Saint George's":null,"Basse-Terre":null,"Aga":null,"Ciudad de Guatemala":null,"Conakry":null,"Bissau":null,"Georgetown":null,"Port-au-Prince":null,"Citt":null,"Tegucigalpa":null,"Victoria":null,"Budapest":null,"Reykjav":null,"New Delhi":null,"Jakarta":null,"Tehran":null,"Baghdad":null,"Dublin":null,"Jerusalem":null,"Roma":null,"Yamoussoukro":null,"Kingston":null,"Tokyo":null,"Amman":null,"Astana":null,"Nairobi":null,"Bairiki":null,"Kuwait":null,"Bishkek":null,"Vientiane":null,"Riga":null,"Beirut":null,"Maseru":null,"Monrovia":null,"Tripoli":null,"Vaduz":null,"Vilnius":null,"Luxembourg [Luxemburg/L":null,"Macao":null,"Skopje":null,"Antananarivo":null,"Lilongwe":null,"Kuala Lumpur":null,"Male":null,"Bamako":null,"Valletta":null,"Dalap-Uliga-Darrit":null,"Fort-de-France":null,"Nouakchott":null,"Port-Louis":null,"Mamoutzou":null,"Ciudad de M":null,"Palikir":null,"Chisinau":null,"Monaco-Ville":null,"Ulan Bator":null,"Podgorica":null,"Plymouth":null,"Rabat":null,"Maputo":null,"Rangoon (Yangon)":null,"Windhoek":null,"Yaren":null,"Kathmandu":null,"Amsterdam":null,"Willemstad":null,"Noum":null,"Wellington":null,"Managua":null,"Niamey":null,"Abuja":null,"Alofi":null,"Pyongyang":null,"Belfast":null,"Garapan":null,"Oslo":null,"Masqat":null,"Islamabad":null,"Koror":null,"Gaza":null,"Ciudad de Panam":null,"Port Moresby":null,"Asunci":null,"Lima":null,"Manila":null,"Adamstown":null,"Warszawa":null,"Lisboa":null,"San Juan":null,"Doha":null,"Saint-Denis":null,"Bucuresti":null,"Moscow":null,"Kigali":null,"Jamestown":null,"Basseterre":null,"Castries":null,"Saint-Pierre":null,"Kingstown":null,"Apia":null,"San Marino":null,"S":null,"Riyadh":null,"Edinburgh":null,"Dakar":null,"Belgrade":null,"Freetown":null,"Singapore":null,"Bratislava":null,"Ljubljana":null,"Honiara":null,"Mogadishu":null,"Pretoria":null,"Seoul":null,"Juba":null,"Madrid":null,"Khartum":null,"Paramaribo":null,"Longyearbyen":null,"Mbabane":null,"Stockholm":null,"Bern":null,"Damascus":null,"Dushanbe":null,"Dodoma":null,"Bangkok":null,"Kinshasa":null,"Lomé":null,"Fakaofo":null,"Nuku'alofa":null,"Port-of-Spain":null,"Tunis":null,"Ankara":null,"Ashgabat":null,"Cockburn Town":null,"Funafuti":null,"Kampala":null,"Kyiv":null,"Abu Dhabi":null,"Washington":null,"Montevideo":null,"Toskent":null,"Port-Vila":null,"Caracas":null,"Hanoi":null,"Road Town":null,"Charlotte Amalie":null,"Cardiff":null,"Mata-Utu":null,"El-Aai":null,"Sanaa":null,"Lusaka":null,"Harare":null},
+                limit: 5
+            });
+        }); 
+    </script>
+</body>
+</html>
