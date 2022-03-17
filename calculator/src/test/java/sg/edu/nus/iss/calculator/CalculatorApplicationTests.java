@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -15,12 +16,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import sg.edu.nus.iss.calculator.controller.CalculatorController;
 import sg.edu.nus.iss.calculator.model.CalculateResult;
 import sg.edu.nus.iss.calculator.service.CalculatorService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class CalculatorApplicationTests {
+
+	@Autowired
+	private CalculatorController cCtrl;
 
 	@Autowired
 	private CalculatorService cSvc;
@@ -32,7 +37,9 @@ class CalculatorApplicationTests {
 	void contextLoads() {
 		String mockAgent = "Test Agent";
 		String mockBody = "{\"oper1\":1,\"oper2\":1,\"ops\":\"plus\"}";
+		Optional<ResponseEntity<String>> ctrl = Optional.ofNullable(cCtrl.calculateResource(mockAgent, mockBody));
 		Optional<CalculateResult> opt = cSvc.calculateResponse(mockAgent, mockBody);
+		Assertions.assertTrue(ctrl.isPresent());
 		Assertions.assertTrue(opt.isPresent());
 	}
 
