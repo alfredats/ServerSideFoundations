@@ -1,11 +1,16 @@
 package sg.edu.nus.iss.pokeApp.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.json.Json;
+import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
 public class Pokemon {
     private String name;
@@ -31,8 +36,9 @@ public class Pokemon {
         this.spriteURLs = spriteURLs;
     }
 
-    public static Pokemon createPokemon(String apiResp) {
-        JsonObject respObj = Json.createReader(new StringReader(apiResp)).readObject();
+    public static Pokemon createPokemon(String apiResp) throws IOException {
+        JsonReader respReader = Json.createReader(new InputStreamReader(new ByteArrayInputStream(apiResp.getBytes())));
+        JsonObject respObj = respReader.readObject();
         Pokemon pkm = new Pokemon();
         JsonObject gen1RedBlueSprites = respObj
             .getJsonObject("sprites")

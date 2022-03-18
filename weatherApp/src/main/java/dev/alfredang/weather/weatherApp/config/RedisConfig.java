@@ -28,7 +28,7 @@ public class RedisConfig {
 
     @PostConstruct
     public void init() {
-        this.password = System.getenv("REDIS_PASSWORD");
+        // this.password = System.getenv("REDIS_PASSWORD");
     }
 
 
@@ -38,7 +38,7 @@ public class RedisConfig {
         config.setHostName(host);
         config.setPort(port);
         // config.setDatabase(database);
-        config.setPassword(RedisPassword.of(password));
+        // config.setPassword(RedisPassword.of(password));
    
         JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder().build();
         return new JedisConnectionFactory(config, jedisClientConfiguration); 

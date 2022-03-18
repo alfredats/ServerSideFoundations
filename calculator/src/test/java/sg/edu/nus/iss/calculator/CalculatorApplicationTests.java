@@ -1,6 +1,10 @@
 package sg.edu.nus.iss.calculator;
 
+import java.io.StringReader;
+import java.security.SecureRandom;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -43,11 +47,32 @@ class CalculatorApplicationTests {
 		Assertions.assertTrue(opt.isPresent());
 	}
 
-	@Test
-	void plus() throws Exception {
+	@Test 
+	void badRequest() throws Exception {
+		// bad ops value
 		JsonObject reqParams = Json.createObjectBuilder()
 								.add("oper1", 1)
 								.add("oper2", 2)
+								.add("ops", "abcdef")
+								.build();
+		RequestBuilder req = MockMvcRequestBuilders.post("/calculate")
+										.contentType(MediaType.APPLICATION_JSON_VALUE)
+										.header("User-Agent", "MockMVC TEST")
+										.content(reqParams.toString())
+										.accept(MediaType.APPLICATION_JSON_VALUE);
+		MvcResult result = mvc.perform(req).andReturn();
+		
+		Assertions.assertTrue(result.getResponse().getStatus() >= 400);
+
+	}
+
+	@Test
+	void plus() throws Exception {
+		Random rnd = new SecureRandom();
+		int oper1 = rnd.nextInt(-50, 50); int oper2 = rnd.nextInt(-50, 50);
+		JsonObject reqParams = Json.createObjectBuilder()
+								.add("oper1", oper1)
+								.add("oper2", oper2)
 								.add("ops", "plus")
 								.build();
 		RequestBuilder req = MockMvcRequestBuilders.post("/calculate")
@@ -59,7 +84,14 @@ class CalculatorApplicationTests {
 		MvcResult result = mvc.perform(req).andReturn();
 		int status = result.getResponse().getStatus();
 
+		JsonObject respBody = Json.createReader(new StringReader(result.getResponse().getContentAsString())).readObject();
+
 		Assertions.assertEquals(200, status);
+
+		for (String h : List.of("result", "timestamp","userAgent"))
+			Assertions.assertFalse(respBody.isNull(h));
+
+		Assertions.assertEquals((double)(oper1) + (double)oper2, respBody.getJsonNumber("result").doubleValue());
 	}
 
 	@Test

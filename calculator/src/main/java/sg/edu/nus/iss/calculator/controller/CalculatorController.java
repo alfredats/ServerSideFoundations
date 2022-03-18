@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import sg.edu.nus.iss.calculator.model.CalculateResult;
 import sg.edu.nus.iss.calculator.service.CalculatorService;
 
@@ -34,7 +36,10 @@ public class CalculatorController {
         Optional<CalculateResult> cr = cSvc.calculateResponse(agent, reqStr);
 
         if (cr.isEmpty()) {
-            return ResponseEntity.status(400).body(new CalculateResult().toString());
+            JsonObject errResp = Json.createObjectBuilder()
+                                    .add("error", "bad request")
+                                    .build();
+            return ResponseEntity.status(400).body(errResp.toString());
         } 
 
         return ResponseEntity.ok().body(cr.get().toString());
