@@ -1,0 +1,15 @@
+.center {
+    display: block;
+    margin: 0 auto;
+}
+
+.deck {
+    margin-top: 5rem;
+    padding: 3rem;
+    border: grey solid .2rem;
+}
+
+.empty-deck {
+    width: 300;
+    height: auto;
+}
